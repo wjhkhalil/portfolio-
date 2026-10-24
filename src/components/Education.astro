@@ -1,0 +1,56 @@
+---
+import { education } from '../data/profile';
+---
+
+<section class="education" id="education">
+  <div class="container band reveal">
+    <span class="section-label">Education</span>
+    <ul>
+      {
+        education.map((item) => (
+          <li>
+            <span class="degree">{item.degree}</span>
+            <span class="tag">{item.status}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .education {
+    padding-block: 36px;
+    border-top: 1px solid var(--border);
+  }
+
+  .band {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 28px;
+  }
+
+  .section-label {
+    margin-bottom: 0;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+
+  li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .degree {
+    color: var(--muted);
+  }
+</style>

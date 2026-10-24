@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wajeeha.dev/sitemap-index.xml

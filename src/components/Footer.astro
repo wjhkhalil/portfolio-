@@ -1,0 +1,67 @@
+---
+import Icon from './Icon.astro';
+import { profile } from '../data/profile';
+
+const year = new Date().getFullYear();
+const socials = profile.socials.filter((social) => social.url);
+---
+
+<footer class="footer">
+  <div class="container inner">
+    <p>© {year} {profile.name}. Built with Astro.</p>
+
+    {
+      socials.length > 0 && (
+        <ul class="socials">
+          {socials.map((social) => (
+            <li>
+              <a href={social.url} target="_blank" rel="noopener" aria-label={social.label}>
+                <Icon name={social.icon as any} size={18} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: 28px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .socials {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .socials a {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: var(--muted);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .socials a:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+</style>

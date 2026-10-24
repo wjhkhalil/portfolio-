@@ -1,0 +1,86 @@
+---
+import { skills } from '../data/profile';
+---
+
+<section class="section container" id="skills">
+  <span class="section-label reveal">Skills</span>
+  <h2 class="section-title reveal">What I work with</h2>
+
+  <div class="grid">
+    {
+      skills.map((skill) => (
+        <div class="card reveal">
+          <h3>{skill.group}</h3>
+          <ul>
+            {skill.items.map((item) => (
+              <li class="tag">{item}</li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* Two columns; an odd last card stretches across */
+  @media (min-width: 640px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* Three columns on a 6-track grid, so a short last row fills the width
+     instead of leaving a lone card */
+  @media (min-width: 960px) {
+    .grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .card,
+    .card:last-child:nth-child(odd) {
+      grid-column: span 2;
+    }
+
+    .card:nth-last-child(2):nth-child(3n + 1),
+    .card:last-child:nth-child(3n + 2) {
+      grid-column: span 3;
+    }
+
+    .card:last-child:nth-child(3n + 1) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .card {
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  h3 {
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+</style>

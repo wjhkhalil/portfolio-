@@ -1,0 +1,300 @@
+---
+import Icon from './Icon.astro';
+import { profile, services } from '../data/profile';
+
+const socials = profile.socials.filter((social) => social.url);
+
+// Free, no-backend form delivery. Get a key at https://web3forms.com (email only,
+// no account) and put it in a .env file as PUBLIC_WEB3FORMS_KEY=your-key
+const formKey = import.meta.env.PUBLIC_WEB3FORMS_KEY;
+---
+
+<section class="section contact-section" id="contact">
+  <div class="container reveal">
+    <div class="head">
+      <span class="section-label">Contact</span>
+      <h2 class="section-title">Let's build something together</h2>
+      <p class="section-intro">
+        Tell me what you are trying to build and roughly when you need it. I reply to every message
+        within a day, even if it is only to point you somewhere better.
+      </p>
+    </div>
+
+    <div class="panel">
+      {
+        formKey ? (
+          <form class="form" id="contact-form">
+            <input type="hidden" name="access_key" value={formKey} />
+            <input type="hidden" name="subject" value="New project enquiry from your portfolio" />
+            <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+
+            <div class="row">
+              <div class="field">
+                <label for="name">Your name</label>
+                <input id="name" name="name" type="text" required autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" required autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="need">What do you need?</label>
+              <select id="need" name="need">
+                {services.map((service) => (
+                  <option value={service.title}>{service.title}</option>
+                ))}
+                <option value="Something else">Something else</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="message">A little about the project</label>
+              <textarea id="message" name="message" rows="5" required />
+            </div>
+
+            <button class="btn btn-primary" type="submit" id="submit-btn">Send message</button>
+            <p class="status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+        ) : (
+          <div class="form fallback">
+            <p class="setup-note">
+              The contact form is ready but needs a free delivery key. Until then, email works just as
+              well:
+            </p>
+            <a class="btn btn-primary" href={`mailto:${profile.email}`}>
+              <Icon name="mail" />
+              {profile.email}
+            </a>
+          </div>
+        )
+      }
+
+      <aside class="direct">
+        <h3>Prefer something quicker?</h3>
+        <ul class="links">
+          <li>
+            <a href={`mailto:${profile.email}`}>
+              <Icon name="mail" />
+              <span>{profile.email}</span>
+            </a>
+          </li>
+          {socials.map((social) => (
+            <li>
+              <a href={social.url} target="_blank" rel="noopener">
+                <Icon name={social.icon as any} />
+                <span>{social.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {
+          socials.length === 0 && (
+            <p class="setup-note">
+              Add your GitHub, LinkedIn and WhatsApp links in <code>src/data/profile.ts</code> and they
+              will appear here.
+            </p>
+          )
+        }
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-section {
+    background: var(--surface-soft);
+  }
+
+  .head {
+    max-width: 620px;
+  }
+
+  .panel {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .form,
+  .direct {
+    padding: clamp(24px, 4vw, 36px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .form {
+    display: grid;
+    gap: 18px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .field {
+    display: grid;
+    gap: 7px;
+  }
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  /* Spam trap — hidden from people, tempting to bots */
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .status {
+    font-size: 0.95rem;
+    min-height: 1.4em;
+  }
+
+  .status[data-state='ok'] {
+    color: var(--accent);
+  }
+
+  .status[data-state='error'] {
+    color: #c2563f;
+  }
+
+  :global([data-theme='dark']) .status[data-state='error'] {
+    color: #e8907a;
+  }
+
+  .fallback {
+    justify-items: start;
+    align-content: start;
+  }
+
+  .direct h3 {
+    font-size: 1.15rem;
+    margin-bottom: 16px;
+  }
+
+  .links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+  }
+
+  .links a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    margin-inline: -12px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.97rem;
+    overflow-wrap: anywhere;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .links a:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .setup-note {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-bottom: 18px;
+  }
+
+  .direct .setup-note {
+    margin: 16px 0 0;
+  }
+
+  code {
+    font-size: 0.88em;
+    background: var(--accent-soft);
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+
+  @media (max-width: 860px) {
+    .panel {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+  const button = document.getElementById('submit-btn') as HTMLButtonElement | null;
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!status || !button) return;
+
+    button.disabled = true;
+    button.textContent = 'Sending…';
+    status.textContent = '';
+    status.removeAttribute('data-state');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+
+      if (!response.ok) throw new Error(String(response.status));
+
+      form.reset();
+      status.dataset.state = 'ok';
+      status.textContent = 'Thank you — your message is on its way. I will reply within a day.';
+    } catch {
+      status.dataset.state = 'error';
+      status.textContent = 'Something went wrong. Please email me directly instead.';
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Send message';
+    }
+  });
+</script>

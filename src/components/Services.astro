@@ -1,0 +1,124 @@
+---
+import { services } from '../data/profile';
+---
+
+<section class="section services-section" id="services">
+  <div class="container">
+    <span class="section-label reveal">Services</span>
+    <h2 class="section-title reveal">What I can build for you</h2>
+    <p class="section-intro reveal">
+      Every project starts with a short conversation about what you need. Then you get a fixed scope, a
+      clear timeline, and regular updates while I build.
+    </p>
+
+    <div class="grid">
+      {
+        services.map((service) => (
+          <article class="card service reveal">
+            <h3>{service.title}</h3>
+            <p class="summary">{service.summary}</p>
+
+            <ul class="deliverables">
+              {service.deliverables.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+
+            <p class="timeline">{service.timeline}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="footnote reveal">
+      Need something that is not listed? <a href="#contact">Tell me about it</a> — if it is not a good fit
+      I will say so.
+    </p>
+  </div>
+</section>
+
+<style>
+  .services-section {
+    background: var(--surface-soft);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .service {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .service:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  h3 {
+    font-size: 1.35rem;
+  }
+
+  .summary {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .deliverables {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 10px;
+    font-size: 0.97rem;
+    color: var(--muted);
+  }
+
+  .deliverables li {
+    position: relative;
+    padding-left: 26px;
+  }
+
+  /* Checkmark drawn in CSS so the list needs no icon assets */
+  .deliverables li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 0.62em;
+    width: 11px;
+    height: 6px;
+    border-left: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    transform: rotate(-45deg);
+  }
+
+  .timeline {
+    margin-top: auto;
+    padding-top: 22px;
+    font-weight: 500;
+    color: var(--accent);
+    font-size: 0.95rem;
+  }
+
+  .footnote {
+    margin-top: 32px;
+    color: var(--muted);
+    font-size: 0.97rem;
+  }
+
+  .footnote a {
+    color: var(--accent);
+    text-underline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service:hover {
+      transform: none;
+    }
+  }
+</style>

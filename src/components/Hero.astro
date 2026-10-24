@@ -1,0 +1,198 @@
+---
+import { profile } from '../data/profile';
+
+const { availability, resumeUrl } = profile;
+---
+
+<section class="hero container" id="top">
+  <div class="ui-pieces" aria-hidden="true">
+    <div class="piece card-piece">
+      <div class="card-avatar"></div>
+      <div class="card-lines">
+        <div class="card-line"></div>
+        <div class="card-line short"></div>
+      </div>
+    </div>
+    <div class="piece search-piece">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="M21 21l-4.3-4.3"></path>
+      </svg>
+      <span>Search stories...</span>
+    </div>
+    <div class="piece toggle-piece">
+      <span class="toggle-label">Dark mode</span>
+      <span class="toggle"></span>
+    </div>
+    <div class="piece button-piece">Get started</div>
+  </div>
+
+  {
+    availability.available && (
+      <p class="pill pill-live reveal">{availability.label}</p>
+    )
+  }
+
+  <p class="hello reveal">Hi, I'm {profile.name} —</p>
+  <h1 class="reveal">{profile.headline}</h1>
+  <p class="intro reveal">{profile.intro}</p>
+
+  <div class="cta reveal">
+    <a class="btn btn-primary" href="#contact">Start a project</a>
+    <a class="btn btn-outline" href="#work">See my work</a>
+    {resumeUrl && <a class="btn btn-outline" href={resumeUrl} download>Download CV</a>}
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    padding-block: clamp(80px, 13vw, 140px) clamp(72px, 12vw, 128px);
+  }
+
+  .ui-pieces {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: min(420px, 55vw);
+    height: min(420px, 55vw);
+    pointer-events: none;
+  }
+
+  .piece {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    color: var(--muted);
+    font-size: 0.9rem;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .card-piece {
+    top: 8%;
+    left: 5%;
+    animation-delay: -1s;
+  }
+
+  .card-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    flex-shrink: 0;
+  }
+
+  .card-lines {
+    display: grid;
+    gap: 8px;
+    width: 110px;
+  }
+
+  .card-line {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--accent-soft);
+  }
+
+  .card-line.short {
+    width: 70%;
+  }
+
+  .search-piece {
+    top: 35%;
+    right: 0;
+    animation-delay: -2.5s;
+  }
+
+  .toggle-piece {
+    top: 58%;
+    left: 12%;
+    gap: 16px;
+    animation-delay: -4s;
+  }
+
+  .toggle {
+    width: 44px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    position: relative;
+  }
+
+  .toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .button-piece {
+    top: 80%;
+    right: 8%;
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 500;
+    animation-delay: -3s;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .ui-pieces {
+      display: none;
+    }
+  }
+
+  .pill {
+    margin-bottom: 24px;
+  }
+
+  .hello {
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+
+  h1 {
+    margin-top: 6px;
+    font-size: clamp(2rem, 5.5vw, 3.4rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    max-width: 20ch;
+  }
+
+  .intro {
+    margin-top: 26px;
+    max-width: 580px;
+    color: var(--muted);
+    font-size: 1.15rem;
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+  }
+</style>

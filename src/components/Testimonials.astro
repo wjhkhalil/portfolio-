@@ -1,0 +1,72 @@
+---
+import { testimonials } from '../data/profile';
+---
+
+{
+  testimonials.length > 0 && (
+    <section class="section container" id="testimonials">
+      <span class="section-label reveal">Kind words</span>
+      <h2 class="section-title reveal">What people say</h2>
+
+      <div class="grid">
+        {testimonials.map((testimonial) => (
+          <figure class="card quote reveal">
+            <blockquote>{testimonial.quote}</blockquote>
+            <figcaption>
+              <span class="name">{testimonial.name}</span>
+              <span class="role">{testimonial.role}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .quote {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  blockquote {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    line-height: 1.5;
+  }
+
+  /* Decorative opening quote mark */
+  blockquote::before {
+    content: '\201C';
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    line-height: 0.6;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  figcaption {
+    margin-top: auto;
+    padding-top: 22px;
+    display: grid;
+  }
+
+  .name {
+    font-weight: 600;
+    font-size: 0.97rem;
+  }
+
+  .role {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>
